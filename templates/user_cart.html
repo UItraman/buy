@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div>
+        {{ u.username }}
+        {{ u.cart }}
+    </div>
+    {% for p in ps %}
+    <div data-id={{ p.id }}>
+
+        产品名称：{{ p.name }}
+        <br>
+        产品价格：{{ p.price }}
+        <hr>
+    </div>
+    {% endfor %}
+    <div>
+        总计 <span class="count_num">{{ u.count_num }}</span> 件，
+        总金额 <span class="count_num">{{ u.count_price }}</span> 元。
+    </div>
+{% endblock %}
