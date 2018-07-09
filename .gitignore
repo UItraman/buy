@@ -105,3 +105,7 @@ venv.bak/
 
 # my own stuff
 config/key.py
+
+# avatar
+static/user_avatar/*_*.png
+static/product_pic/*.png
