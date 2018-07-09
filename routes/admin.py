@@ -1,4 +1,5 @@
 from models.product import Product
+from models.user import User
 from routes import *
 from flask import current_app as app
 
@@ -34,3 +35,22 @@ def add():
 def product_list():
     ps = Model.all()
     return render_template('product_list.html', ps=ps)
+
+
+@main.route('/edit/<int:id>')
+@admin_required
+def product_edit(id):
+    p = Model.get(id)
+    print(p)
+    return render_template('product_edit.html', p=p)
+
+
+@main.route('/update/<int:id>', methods=['POST'])
+@admin_required
+def product_update(id):
+    p = Model.get(id)
+    form = request.form
+    pic = request.files['pic']
+    p.update(form, hard=True)
+    p.update_pic(pic)
+    return redirect(url_for('admin.product_list'))

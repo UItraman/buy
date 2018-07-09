@@ -13,7 +13,7 @@ def timestamp():
 def time_str(t):
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
 
-    
+
 def next_id(name):
     query = {
         'name': name,
@@ -155,6 +155,13 @@ class User(MongoModel):
             'deleted': True
         }
         db[name].update_one(query, values)
+
+    def update(self, form, hard=False):
+        for k, v in form.items():
+            if hard or hasattr(self, k):
+                setattr(self, k, v)
+        self.ut = timestamp()
+        self.save()
 
     def blacklist(self):
         b = [
