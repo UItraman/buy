@@ -1,5 +1,6 @@
 import time
 from pymongo import *
+from uuid import uuid4
 
 # mongodb config
 from config import config
@@ -11,7 +12,13 @@ def timestamp():
 
 
 def time_str(t):
-    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(int(t) + 3600 * 8))
+
+
+def short_uuid():
+    seed = str(uuid4())
+    short_seed = seed.split('-')[-1]
+    return short_seed
 
 
 def next_id(name):
@@ -40,6 +47,7 @@ class MongoModel(object):
         fields = [
             '_id',
             ('id', int, -1),
+            ('uuid', str, ''),
             ('type', str, ''),
             ('deleted', bool, False),
             ('ct', int, 0),
@@ -93,6 +101,7 @@ class User(MongoModel):
         m.ct = ts
         m.ut = ts
         m.type = name.lower()
+        m.set_uuid()
         m.save()
         return m
 
@@ -182,3 +191,13 @@ class User(MongoModel):
         }
         count = db[name].find(query).count()
         return count
+
+    def set_uuid(self, field='uuid'):
+        new_uuid = short_uuid()
+        kwargs = {
+            field: new_uuid,
+        }
+        while self.__class__.has(**kwargs):
+            kwargs[field] = short_uuid()
+        setattr(self, field, new_uuid)
+        self.save()
