@@ -1,4 +1,4 @@
-@media (min-height: 768px) {
+/*@media (min-height: 768px) {
     .main {
         padding-top: 70px;
         min-height: 500px;
@@ -6,7 +6,7 @@
     .div-form {
         max-width: 300px;
     }
-}
+}*/
 .count_num {
     color: red;
 }
@@ -122,4 +122,16 @@
 }
 .list-pic-fix {
     padding-left: 0;
+}
+.add-default {
+    color: #ffcb23;
+    text-decoration:none;
+}
+.add-default:hover {
+    color: #ffcb23;
+    text-decoration:none;
+}
+.address-edit-button {
+    display: inline-block;
+    margin-left: 20px;
 }
